@@ -26,6 +26,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "extra": {
+      "API_KEY": "${API_KEY}"
+    },
     "plugins": [
       "expo-asset",
       "expo-font"
