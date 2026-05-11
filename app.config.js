@@ -1,5 +1,4 @@
 import 'dotenv/config';
-
 // this file wraps the static app.json and injects values from process.env
 const appJson = require('./app.json');
 

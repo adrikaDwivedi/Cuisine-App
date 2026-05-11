@@ -4,7 +4,7 @@ import {
   View,
   SafeAreaView,
   ActivityIndicator,
-  FlatList
+  FlatList, Button, TextInput
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "./component/Header";
@@ -13,38 +13,48 @@ import CategoriesFilter from "./component/CategoriesFilter";
 import RecipeCard from "./component/RecipeCard";
 import { getRecipesByCategory } from "../HelperFunctions";
 
+
   const RecipeListScreen = () => {
-    
-   const [recipes, setRecipes] = useState([]);
+    const [query , setQuery] = useState("");
+    const [recipes , setRecipes] = useState([]);
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const data = await getRecipesByCategory();
-      setRecipes(data);
-    };
-    fetchRecipes();
-  } , []);
+    const API_KEY = "e2a318d201d1478995f755719a0f56d9";
 
+    const fetchRecipes = async () =>{
+      try {
+        const response = await fetch (
+          `https://api.spoonacular.com/recipes/complexSearch?cuisine=${query}&apiKey=${API_KEY}`,
+          {
+            headers:{
+              "Content-Type" : "application/json",
+            }
+          }
+        )
+        const data = await response.json();
+        setRecipes(data.results || []);
+      } catch (error) {
+        console.log(error);
+      }
+    }
     return (
-      <SafeAreaView style={styles.container}>
-        <Header headerText={"Hey there"} headerIcon={"bell-o"} />
-        <SearchFilter
-        icon = "search"
-        />
-        <View>
-          <FlatList 
+ 
+        <View style={{ flex: 1, padding: 20 }}>
+      <TextInput
+        placeholder="Enter cuisine"
+        value={query}
+        onChangeText={setQuery}
+        style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+      />
+
+      <Button title="Search" onPress={fetchRecipes} />
+
+    
+        <FlatList
           data={recipes}
-          renderItem={({item}) => (
-            <RecipeCard 
-            id= {item.id}
-            title={item.title}
-            image={item.image}
-            />
-          )}
           keyExtractor={(item) => item.id.toString()}
-          />
-        </View>
-       </SafeAreaView>
+          renderItem={({ item }) => <Text>{item.title}</Text>}
+        />
+    </View>
     );
   }
   export default RecipeListScreen;

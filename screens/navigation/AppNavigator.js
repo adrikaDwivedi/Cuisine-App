@@ -15,8 +15,8 @@ const AppNavigator = () => {
     <GestureHandlerRootView>
     <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Splash" component={SplashScreen} />
-            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            {/* <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
             <Stack.Screen name="HomeTabs" component={BottomTabNavigation}/>
             <Stack.Screen name="RecipeList" component={RecipeListScreen} />
             <Stack.Screen name="RecipeDetailScreen" component={RecipeDetailScreen} />
